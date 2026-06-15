@@ -1,5 +1,5 @@
 "use strict";
-import { window, Disposable, ExtensionContext, StatusBarAlignment, StatusBarItem, TextDocument, TextEditor, Range } from 'vscode';
+import { window, Disposable, ExtensionContext, StatusBarAlignment, StatusBarItem, TextDocument, TextEditor, Range, workspace } from 'vscode';
 export function activate(context: ExtensionContext) {
     let characterCounter = new CharacterCounter();
     let controller = new CharacterCounterController(characterCounter);
@@ -8,7 +8,6 @@ export function activate(context: ExtensionContext) {
 }
 
 export class CharacterCounter {
-
     private _statusBarItem!: StatusBarItem;
     public updateCharacterCount() {
         if (!this._statusBarItem) {
@@ -20,29 +19,42 @@ export class CharacterCounter {
             return;
         }
         let doc = editor.document;
-
-        // count when doc type is markdown, plaintext or latex.
-        if (doc.languageId === "markdown" || doc.languageId === "plaintext" || doc.languageId === "latex") {
-            let characterCount = this._getCharacterCount(doc);
-            // count selected characters.
-            let selectedCharacterCount = this._getSelectedCharacterCount(editor);
-            this._statusBarItem.text = `$(pencil) ${characterCount} , ${selectedCharacterCount} Selected:`;
-            this._statusBarItem.show();
-        } else {
-            this._statusBarItem.hide();
-        }
+		let msg = "";
+        // all text of current editor.
+        let characterCount = this._getCharacterCount(doc);
+        // selected text of current editor.
+        let selectedCharacterCount = this._getSelectedCharacterCount(editor);
+        msg = `$(pencil) File: ${characterCount}  Selected: ${selectedCharacterCount}`;
+		// total of opened editors
+		let total_count = 0;
+		let docs = workspace.textDocuments;
+        console.log("--documents--");
+		for (const doc of docs){
+            if (doc.fileName.endsWith(".git") || doc.fileName.startsWith("git")){
+                continue;
+            }
+			console.log(doc.fileName);
+			total_count += this._getCharacterCount(doc);
+		}
+        console.log("--------");
+		if (total_count > 0){
+			msg += ` Total: ${total_count}`;
+		}
+		if (msg !== ""){
+			this._statusBarItem.text = msg;
+			this._statusBarItem.show();
+		} else {
+			this._statusBarItem.hide();
+		}
     }
 
     public _filterUncountedCharacters(docContent: string): string{
-        // remove the characters not to count.
-        docContent = docContent
-            .replace(/\s/g, '') // all white spaces.
-            .replace(/《(.+?)》/g, '')  // range symbols for Japanese Ruby and the characters within them.
-            .replace(/[\|｜]/g, '');    // start symbols for Japanese Ruby.
-        return docContent
+        // remove characters that don't need to be counted
+        return docContent.replace(/(\r|\n|《(.+?)》|[\|\｜])/g, '');
     }
 
     public _getCharacterCount(doc: TextDocument): number {
+        // count all characters of current editor.
         let docContent = doc.getText();
         docContent = this._filterUncountedCharacters(docContent);
         let characterCount = 0;
@@ -53,7 +65,7 @@ export class CharacterCounter {
     }
 
     public _getSelectedCharacterCount(editor: TextEditor): number {
-        // count selected characters.
+        // count selected characters of current editor.
         let doc = editor.document;
         let characterCount = 0;
         for (let i = 0; i < editor.selections.length; i++){
