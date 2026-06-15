@@ -21,12 +21,12 @@ export class CharacterCounter {
         }
         let doc = editor.document;
 
-        // Markdownとプレーンテキストの時だけカウント
-        if (doc.languageId === "markdown" || doc.languageId === "plaintext") {
+        // count when doc type is markdown, plaintext or latex.
+        if (doc.languageId === "markdown" || doc.languageId === "plaintext" || doc.languageId === "latex") {
             let characterCount = this._getCharacterCount(doc);
-            // 選択されているテキスト分を追加
+            // count selected characters.
             let selectedCharacterCount = this._getSelectedCharacterCount(editor);
-            this._statusBarItem.text = `$(pencil) ${characterCount} 文字 ${selectedCharacterCount} 選択`;
+            this._statusBarItem.text = `$(pencil) ${characterCount} , ${selectedCharacterCount} Selected:`;
             this._statusBarItem.show();
         } else {
             this._statusBarItem.hide();
@@ -34,22 +34,16 @@ export class CharacterCounter {
     }
 
     public _filterUncountedCharacters(docContent: string): string{
-        // カウントに含めない文字を削除する
+        // remove the characters not to count.
         docContent = docContent
-            .replace(/\s/g, '') // すべての空白文字
-            .replace(/《(.+?)》/g, '')  // ルビ範囲指定記号とその中の文字
-            .replace(/[\|｜]/g, '');    // ルビ開始記号
+            .replace(/\s/g, '') // all white spaces.
+            .replace(/《(.+?)》/g, '')  // range symbols for Japanese Ruby and the characters within them.
+            .replace(/[\|｜]/g, '');    // start symbols for Japanese Ruby.
         return docContent
     }
 
     public _getCharacterCount(doc: TextDocument): number {
         let docContent = doc.getText();
-        // // カウントに含めない文字を削除する
-        // docContent = docContent
-        //     .replace(/\s/g, '') // すべての空白文字
-        //     .replace(/《(.+?)》/g, '')  // ルビ範囲指定記号とその中の文字
-        //     .replace(/[\|｜]/g, '');    // ルビ開始記号
-        // ↑ をメソッド化した
         docContent = this._filterUncountedCharacters(docContent);
         let characterCount = 0;
         if (docContent !== "") {
@@ -59,7 +53,7 @@ export class CharacterCounter {
     }
 
     public _getSelectedCharacterCount(editor: TextEditor): number {
-        // 選択されているテキストをカウントする
+        // count selected characters.
         let doc = editor.document;
         let characterCount = 0;
         for (let i = 0; i < editor.selections.length; i++){
