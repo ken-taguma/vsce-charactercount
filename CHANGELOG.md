@@ -1,9 +1,17 @@
 # Change Log
 
-All notable changes to the "vsce-charactercount" extension will be documented in this file.
+## 0.5.0
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+- support latex files.
 
-## [Unreleased]
+## 0.4.0
 
-- Initial release
+- update repository to modern style or vscode extensions.
+
+## 0.3.0
+
+- added the function that counts selected characters.
+
+## 0.1.5
+
+- fork from 8amjp/vsce-charactercount.
