@@ -1,8 +1,13 @@
 # Change Log
 
+## 0.6.0
+
+- Supported the total number of characters across multiple files.
+- The file type restriction has been removed.
+
 ## 0.5.0
 
-- support latex files.
+- supported latex files.
 
 ## 0.4.0
 
