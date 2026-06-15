@@ -1,16 +1,11 @@
-VSCE - CharacterCount README
-============================
+# vsce-charactercount README
 
-文字数をリアルタイムでカウントする、Visual Studio Codeの拡張機能です。  
-日本語で書かれたWeb小説の文字数カウントに適しています。  
-なお、マイクロソフトが公開している[サンプル](https://github.com/Microsoft/vscode-wordcount)をベースに作成しました。
+This is the extension that counts characters for Japanese writings.
 
-## Usage
+# Usage
 
-下記の文字を除外した文字数をカウントし、ステータスバーに表示します。
+This extension counts the number of characters excluding the following and displays the result in the status bar:
 
-* すべての空白文字(全角/半角スペース、改行、タブ)
-* ルビ範囲指定記号(《》)とその中の文字
-* ルビ開始記号(「|」、「｜」)
-
-なお、文字数カウント機能が有効になるのは、Markdown形式またはプレーンテキスト形式のファイルを開いた時のみです。
+- Whitespace characters(all types of spaces, newlines, tabs)
+- text range symbols for Japanese "Ruby". ("《", "》" and the characters within them.)
+- text start symboles for Japanese "Ruby".("|")
