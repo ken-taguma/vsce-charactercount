@@ -2,21 +2,19 @@
   "name": "charactercount",
   "displayName": "CharacterCount",
   "description": "count Japanese characters.",
-  "version": "0.5.0",
-  "publisher": "8amjp",
+  "version": "0.6.0",
+  "publisher": "KenTaguma",
   "engines": {
-    "vscode": "^1.120.0"
+    "vscode": "^1.105.0"
   },
   "categories": [
     "Other"
   ],
   "activationEvents": [
-      "onLanguage:markdown",
-      "onLanguage:plaintext"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/8amjp/vsce-charactercount.git"
+    "url": "https://github.com/ken-taguma/vsce-charactercount.git"
   },
 
   "main": "./dist/extension.js",
@@ -43,7 +41,7 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.120.0",
+    "@types/vscode": "^1.105.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
     "typescript-eslint": "^8.56.1",
