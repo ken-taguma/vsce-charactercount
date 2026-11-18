@@ -8,7 +8,7 @@ export function activate(context: ExtensionContext) {
 }
 
 export class CharacterCounter {
-    private _statusBarItem!: StatusBarItem;
+    private _statusBarItem: StatusBarItem | undefined;
     public updateCharacterCount() {
         if (!this._statusBarItem) {
             this._statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
@@ -78,7 +78,8 @@ export class CharacterCounter {
     }
 
     public dispose() {
-        this._statusBarItem.dispose();
+        this._statusBarItem?.dispose();
+        this._statusBarItem = undefined;
     }
 }
 
