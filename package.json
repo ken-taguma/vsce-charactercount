@@ -2,7 +2,7 @@
   "name": "charactercount",
   "displayName": "CharacterCount",
   "description": "count Japanese characters.",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "publisher": "KenTaguma",
   "engines": {
     "vscode": "^1.105.0"

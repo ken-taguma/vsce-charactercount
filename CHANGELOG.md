@@ -1,5 +1,13 @@
 # Change Log
 
+## 0.6.2
+
+- fixed the issue that an error will be occured when StatusBarItem would be undefined.
+
+## 0.6.1
+
+- fixed the boot sequence.
+
 ## 0.6.0
 
 - Supported the total number of characters across multiple files.
